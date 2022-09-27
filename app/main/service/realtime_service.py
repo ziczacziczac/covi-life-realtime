@@ -1,32 +1,22 @@
 import json
+import os
 
-import socketio
 from cryptography.fernet import Fernet
+from google.cloud import pubsub_v1
 
-sio = None
+class RealtimeService:
+    def __init__(self, topic: str):
+        self.topic = topic
+        self.publisher = pubsub_v1.PublisherClient()
 
-def get_sio_connection(socket_server):
-    global sio
-    if sio is None or not sio.connected:
-        sio = socketio.Client()
-        sio.connect(socket_server)
-    return sio
+    def publish(self, user_id: str, admin_key: str, data: dict):
+        patient_id = data['patient_id']
+        print("Send message", data)
+        topic = '{}.{}'.format(user_id, patient_id)
+        send_message = json.dumps({
+            'topic': topic,
+            'data': data
+        })
 
-
-def send_message_to_topic(user_id, data, admin_key, socket_server):
-    patient_id = data['patient_id']
-    print("Send message", data)
-    topic = '{}.{}'.format(user_id, patient_id)
-    send_message = json.dumps({
-        'topic': topic,
-        'data': data
-    })
-
-    sio = get_sio_connection(socket_server)
-
-    sio.emit('json', Fernet(admin_key).encrypt(send_message.encode()))
-
-    def handler(_, message):
-        print(message)
-
-    sio.on("*", handler)
+        send_message_encode = Fernet(admin_key).encrypt(send_message.encode())
+        self.publisher.publish(self.topic, send_message_encode)

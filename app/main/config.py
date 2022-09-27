@@ -95,10 +95,10 @@ class ProductionConfig(Config):
     user_secret_query = f"projects/{project_id}/secrets/USER_SECRET/versions/latest"
     device_secret_query = f"projects/{project_id}/secrets/DEVICE_SECRET/versions/latest"
     admin_key_query = f"projects/{project_id}/secrets/ADMIN_KEY/versions/latest"
-    socket_server_query = f"projects/{project_id}/secrets/SOCKET_SERVER/versions/latest"
+    socket_server_query = f"projects/{project_id}/secrets/SOCKET_SERVER_v2/versions/latest"
 
     ADMIN_KEY = secret_client.access_secret_version(name=admin_key_query).payload.data.decode("utf-8")
-    SOCKET_SERVER = secret_client.access_secret_version(name=socket_server_query).payload.data.decode("utf-8")
+    SOCKET_SERVER = ""
     AVATAR_BUCKET = secret_client.access_secret_version(name=avatar_bucket_query).payload.data.decode("utf-8")
     AVATAR_LINK = secret_client.access_secret_version(name=avatar_link_query).payload.data.decode("utf-8")
     USER_AVATAR_BUCKET = secret_client.access_secret_version(name=user_avatar_bucket_query).payload.data.decode("utf-8")

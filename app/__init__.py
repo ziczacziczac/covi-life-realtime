@@ -1,19 +1,17 @@
 
 from flask_restx import Api
 from flask import Blueprint
-from .main.controller.patient_controller import api as patient_ns
-from .main.controller.healtcheck_controller import api as health_ns
+from .main.controller.realtime_controller import api as realtime_ns
 
 blueprint = Blueprint('api', __name__)
 
 api = Api(
     blueprint,
-    title='FLASK RESTPLUS(RESTX) API BOILER-PLATE WITH JWT',
+    title='COVI-LIFE Realtime Server',
     version='1.0',
-    description='a boilerplate for flask restplus (restx) web service',
+    description='COVI-LIFE Realtime Server',
     # authorizations=authorizations,
     security='apikey'
 )
 
-api.add_namespace(patient_ns, path='/patients')
-api.add_namespace(health_ns, path='/')
+api.add_namespace(realtime_ns, path='/realtime')

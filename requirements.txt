@@ -78,4 +78,4 @@ openpyxl==3.0.10
 dependency-injector==4.39.1
 PyYAML==6.0
 google-cloud-pubsub==2.13.7
-covi-life-core==0.0.2
+vijasses-core==0.0.2

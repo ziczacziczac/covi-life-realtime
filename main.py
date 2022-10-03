@@ -7,7 +7,7 @@ from domain.error import CoviLifeException
 from flask_cors import CORS
 
 from app import blueprint
-from app.containers import Container
+from app.containers import RealtimeContainer
 from app.main import create_app
 
 # from flask_migrate import Migrate, MigrateCommand
@@ -18,7 +18,7 @@ logging.config.dictConfig(yaml.load(open('logging.yaml'), yaml.FullLoader))
 app = create_app('prod')
 CORS(app)
 app.register_blueprint(blueprint)
-app.container = Container()
+app.container = RealtimeContainer()
 app.app_context().push()
 
 
